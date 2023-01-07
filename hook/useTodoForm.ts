@@ -5,7 +5,7 @@ import { TodoType } from "../models/ITodo";
 import { updateTodo, addToDo } from "../services/todoServices";
 
 const useTodoForm = () => {
-  const { todo, setTodo, selectedTodo, setSelectedTodo } = useTodo();
+  const { todo, setTodo, selectedTodo } = useTodo();
 
   const edit = async () => {
     const res = await updateTodo(selectedTodo!.id, todo);
