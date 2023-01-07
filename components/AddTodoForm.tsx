@@ -1,31 +1,18 @@
-import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { ChangeEvent } from "react";
+import { useTodo } from "../context/TodoContext";
+import useTodoForm from "../hook/useTodoForm";
 import { TodoType } from "../models/ITodo";
+import { addToDo, updateTodo } from "../services/todoServices";
 
-type Props = {
-  setTodoList: Dispatch<SetStateAction<TodoType[]>>;
-  todoList: TodoType[];
-};
-
-function AddTodoForm({ todoList, setTodoList }: Props) {
-  const [todo, setTodo] = useState<string>();
-
-  const submitHanlder = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newTodo: TodoType = {
-      id: self.crypto.randomUUID(),
-      todo: todo as string,
-      isCompleted: false,
-      createdAt: new Date(),
-    };
-
-    setTodoList((prev) => [...prev, newTodo]);
-  };
+function AddTodoForm() {
+  const { todo, selectedTodo } = useTodo();
+  const { submitHanlder, changeHandler } = useTodoForm();
 
   return (
     <form onSubmit={submitHanlder}>
       <label htmlFor="todo">Add Todo Here</label>
-      <input name="todo" onChange={(e) => setTodo(e.target.value)}></input>
-      <button type="submit">Add</button>
+      <input name="todo" value={todo} onChange={changeHandler} />
+      <button type="submit">{selectedTodo === null ? "Add" : "Edit"}</button>
     </form>
   );
 }
